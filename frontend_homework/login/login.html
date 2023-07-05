@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign up</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="./login.js"></script>
+</head>
+<style>
+	@charset "UTF-8";
+	:root{
+		--cl_gray: #454545;
+	}
+	html{
+		background-image: url(./bg3.jpg);
+		background-size: cover;
+		background-repeat: no-repeat;
+		/* background-position: center center; */
+		/* background-color: black; */
+		color: white;
+	}
+	.signUp-box{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 400px;
+		padding: 40px;
+/* 变换（transform）属性，用于平移元素的位置。将元素水平和垂直居中 */
+		transform: translate(-50%, -50%);
+		background: rgba(0,0,0,.5);
+/* 元素的宽度和高度会包括其边框和内边距 */
+		box-sizing: border-box;
+		box-shadow: 0 15px 25px rgba(0,0,0,.6);
+		border-radius: 10px;
+		background-color: var(--cl_gray);
+		opacity: 0.9; /* 不透明度 */
+	}
+
+	.signUp-box:hover{
+		opacity: 0.95;
+	}
+	#submit-btn{
+		/* all: unset; */
+
+		background: transparent;
+		color: white;
+		padding: 10px 20px;
+		font-size: 16px;
+
+		letter-spacing: 1px;
+	}
+	#submit-btn:hover{
+		border: solid 1px;
+	}
+	#submit-btn:active{
+		background-color: white;
+		color: black;
+	}
+</style>
+<body>
+	<div class="signUp-box">
+		<h2>注册</h2>
+		<hr>
+		<form action="post">
+			<div class="user-box">
+				<table>
+					<tr>
+						<td>
+							<label for="userName">用户名</label>
+						</td>
+						<td>
+							<input type="text" name="userName" required="" id="userName">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="">密码</label>
+						</td>
+						<td>
+							<input type="password" id="password1">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="">确认密码</label>
+						</td>
+						<td>
+							<input type="password" id="password2">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="">邮箱</label>
+						</td>
+						<td>
+							<input type="text" id="email">
+						</td>
+					</tr>
+					<tr>
+						<td>性别</td>
+						<td>
+							<input type="radio" name="gender" id="" checked>男 &nbsp;&nbsp;&nbsp;
+							<input type="radio" name="gender" id="">女
+						</td>
+					</tr>
+					<tr><td colspan="2"><input type="submit" name="" id="submit-btn" onclick="user.submit();return false;"></td></tr>
+
+				</table>
+			</div>
+			
+		</form>
+	</div>
+</body>
+</html>

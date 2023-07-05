@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>打字測速</title>
+	<script src="https://cdn.staticfile.org/jquery/2.0.0/jquery.min.js"></script>
+	<script src="/charToCodeMaps/sadfes.js"></script>
+	<script src="TypeTimer.js"></script>
+	<script src="TypeText.js"></script>
+
+	<script>
+		function doControl(){
+			if(!window.control){
+				window.control = new Control();//只創建一個Control對象
+				// alert("window.control = new Control();");
+				// alert(window.control.isTimerExisted);
+				window.control.doListener();
+			}
+		}
+	</script>
+	<script>
+		function showDivToHide(){
+			const content = document.getElementById("toHide");
+			if (content.style.display === "none") {
+				content.style.display = "block";
+			} else {
+				content.style.display = "none";
+			}
+		}
+		function confirmModeSelect(){
+			doControl();
+			if(typeTimer === null){
+				typeTimer = new TypeTimer();
+				//alert("1]typeTimer = new TypeTimer();");
+				control.isTimerExisted = true;
+			}{
+				let modeCode = parseInt (document.getElementById("modeSelect").value);
+				typeTimer.setMode(modeCode);
+				//alert("1]mode"+typeTimer.mode);
+			}
+		}
+	</script>
+
+	<style>
+		body{
+			font-family: "孤鹜 筑紫明朝";
+			font-size: 16px;
+			background-color: #333;
+			color: #fff;
+
+		}
+		.dataDiv{
+			position: fixed;
+			/*bottom: 10px;
+			right: 10px;*/
+		}
+		input{
+			font-family: "孤鹜 筑紫明朝";
+			background-color: #333;
+			color: #fff;
+		}
+		textarea{
+			font-family: "孤鹜 筑紫明朝";
+			background-color: #333;
+			color: #fff;
+		}
+		button{
+			font-family: "孤鹜 筑紫明朝";
+		}
+		select{
+			font-family: "孤鹜 筑紫明朝";
+		}
+		#toHide{
+			display: none;
+		}
+		.narrowXba{/*窄輸入框*/
+			width: 70px;
+		}
+		.normalXba{
+			width: 150px;
+		}
+		.dataTable{position: relative;}
+		.originTextDiv{
+			position: absolute;
+			left: 250px;
+			top: 20px;
+		}
+		.typingArea{
+			position: absolute;
+			left: 250px;
+			top: 20px;
+		}
+		.hisTextDiv{
+			width: 1150px;
+			height: 25px;
+			font-size: 20px;
+		}
+		.myTextDiv{
+			width: 1150px;
+			height: 25px;
+			font-size: 20px;
+			border: 1px solid gray;
+			white-space: nowrap;
+
+		}
+		.inputtingArea{
+			width: 220px;
+			height: 2px; /*原昰200*/
+		}
+	</style>
+</head>
+<body onkeydown="doControl()">
+<button onclick="">...</button>
+
+<div id="menu">
+<h1 id="modeH1">打字测速</h1><p>v23.07.05-1153</p>
+按F2开始或暂停
+<div class="oldHisTextDiv" id="originTextDiv" contenteditable="true"></div>
+<!--	<textarea class="originTextarea" id="originTextarea" style=""></textarea>-->
+	<div class="typingArea" id="parentTextDiv" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)"><!--[[??-->
+		<!--<div class="hisTextDiv" contenteditable="true"></div>
+		<div class="myTextDiv" contenteditable="true"></div>-->
+	</div>
+
+<div class="dataDiv">
+<table class="dataTable">
+	<tr>
+		<td>模式: </td>
+		<td ><select  id="modeSelect" onchange="">
+		<option value="1">自由</option>
+		<option value="2">限時</option>
+	</select></td>
+		<td><button onclick="confirmModeSelect()">确定</button></td>
+	</tr>
+	<tr>
+		<td>状态:</td>
+		<td colspan="2"><input type="text" id="status" value="未开始" class="normalXba"> </td>
+	</tr>
+	<tr>
+		<td>用時:</td>
+		<td><input type="text" id="timeCounter" value="0s"  class="narrowXba" ></td>
+		<td><input type="text" id="timeCounterInFormat" value="0:00"  class="narrowXba"></td>
+	</tr>
+	<tr>
+		<td>余時:</td>
+		<td><input type="text" id="remainingTime" value=""  class="narrowXba"></td>
+		<td><input type="text" id="remainingTimeInFormat" value=""  class="narrowXba"></td>
+	</tr>
+	<tr>
+		<td>字符数:</td>
+		<td colspan="2"><input type="text" id="numeroDeChar" value="0"  class="normalXba"></td>
+	</tr>
+	<tr>
+		<td>字符速度:</td>
+		<td><input type="text" id="charPerSecond" value="0/s"  class="narrowXba"></td>
+		<td><input type="text" id="charPerMinute" value="0/min" class="narrowXba"></td>
+	</tr>
+	<tr>
+		<td>按次:</td>
+		<td colspan="2"><input type="text" id="numberOfKeyPress" value="0"  class="normalXba"></td>
+	</tr>
+	<tr>
+		<td>按键速度:</td>
+		<td><input type="text" id="clickPerSecond" value="0/s" class="narrowXba"></td>
+		<td><input type="text" id="clickPerMinute" value="0/min" class="narrowXba"></td>
+	</tr>
+	<tr>
+		<td>当前:</td>
+		<td><input type="text" class="narrowXba" id="currentSpelling0"></td>
+		<td><input type="text" class="narrowXba" id="currentSpelling1"></td>
+	</tr>
+	<tr>
+		<td><button onclick="typeTimer.end()">结束</button></td>
+		<td><button onclick='typeTimer.reset()'>重设</button></td>
+		<td><button onclick='/*typeTimer.clearInputtingArea()*/typeText.clearWholeTypingArea()'>清空输入框</button></td>
+	</tr>
+	<tr>
+		<td><button onclick="typeText.setIds();  typeText.showOriginText();">提交原文</button></td>
+		<td><button onclick="typeText.clearCompletedPart()">清除输入</button></td>
+	</tr>
+	<tr>
+		<td colspan="3"><div><textarea id="toInputToHisText"></textarea></div> </td>
+	</tr>
+</table>
+
+	<button onclick="showDivToHide()">藏</button>
+	<div id="toHide">
+
+	<div>按F2㕥始</div>
+	<textarea name="" id="inputtingArea" class="inputtingArea" oninput="OnInput (event)" onpropertychange="OnPropChanged (event)"></textarea> <!--[[??-->
+
+		<button onclick="control = new Control();">創建Control對象</button>
+		<button onclick="typeTimer = new TypeTimer()">創建TypeTimer對象</button><!--[[爲什麼可以不寫const-->
+		<button onclick="typeTimer.startTimer()">timer始計時</button>
+		<button onclick="typeTimer.interrupt()">timer暫停</button>
+		<button onclick="typeTimer.goOn()">timer繼續</button>
+		<button onclick="typeTimer.end()">timer.結束</button>
+		<button onclick='typeTimer.showData()'>示ᵣ數</button>
+		<button onclick='changeColorForCurrentText("inputtingArea", "originTextarea","green");'>文本變色</button>
+		<br>
+	</div>
+	</div>
+</div>
+
+<br>
+
+</body>
+</html>
